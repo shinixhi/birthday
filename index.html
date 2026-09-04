@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Happy Birthday</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
     body {
       background: radial-gradient(circle at center, #fff9f0 0%, #faede1 100%);
@@ -19,15 +20,17 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      min-height: 100dvh;
       font-family: 'Cormorant Garamond', Georgia, serif;
       overflow: hidden;
       cursor: default;
+      padding: 16px;
     }
 
     #card-container {
       position: relative;
-      width: 1000px;
-      height: 640px;
+      width: min(1000px, 100%);
+      height: min(640px, 94vh);
       background: #ffffff;
       border-radius: 20px;
       box-shadow: 0 20px 60px rgba(186, 114, 114, 0.12), 0 4px 15px rgba(0, 0, 0, 0.03);
@@ -46,7 +49,7 @@
     #info-panel {
       width: 46%;
       height: 100%;
-      padding: 60px 48px;
+      padding: clamp(24px, 4vw, 55px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -54,6 +57,7 @@
       opacity: 0;
       transform: translateX(-20px);
       transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
     }
 
     #info-panel.visible {
@@ -62,11 +66,10 @@
     }
 
     #typewriter {
-      font-size: 1.15rem;
-      line-height: 1.8;
+      font-size: clamp(0.92rem, 1.8vw, 1.15rem);
+      line-height: 1.7;
       color: #3d3434;
       white-space: pre-line;
-      min-height: 270px;
       letter-spacing: 0.2px;
     }
 
@@ -84,24 +87,25 @@
 
     #countdown-box {
       font-family: 'Montserrat', sans-serif;
-      padding-top: 20px;
+      padding-top: 14px;
+      margin-top: 12px;
       border-top: 1px solid rgba(230, 57, 70, 0.15);
     }
 
     #countdown-box .label {
-      font-size: 0.78rem;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
       text-transform: uppercase;
       letter-spacing: 2px;
       font-weight: 600;
       color: #7d6b6b;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     #timer {
-      font-size: 1.2rem;
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
       font-weight: 600;
       letter-spacing: 1px;
       color: #c92a2a;
@@ -114,7 +118,7 @@
       top: 0;
       left: 0;
       transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
-      transform: translateX(0);
+      transform: translate(0, 0);
     }
 
     #canvas-container.shifted {
@@ -175,38 +179,38 @@
     }
 
     #intro-heart-btn {
-      width: 78px;
-      height: 78px;
+      width: 68px;
+      height: 68px;
       background: #e63946;
       transform: rotate(-45deg);
       cursor: pointer;
       box-shadow: 0 12px 30px rgba(230, 57, 70, 0.3);
       animation: heartbeat 1.8s infinite ease-in-out;
-      margin-bottom: 40px;
+      margin-bottom: 35px;
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    #intro-heart-btn:hover {
-      transform: scale(1.15) rotate(-45deg);
+    #intro-heart-btn:hover, #intro-heart-btn:active {
+      transform: scale(1.12) rotate(-45deg);
     }
 
     #intro-heart-btn::before,
     #intro-heart-btn::after {
       content: "";
       position: absolute;
-      width: 78px;
-      height: 78px;
+      width: 68px;
+      height: 68px;
       background: #e63946;
       border-radius: 50%;
     }
 
     #intro-heart-btn::before {
-      top: -39px;
+      top: -34px;
       left: 0;
     }
 
     #intro-heart-btn::after {
-      left: 39px;
+      left: 34px;
       top: 0;
     }
 
@@ -220,11 +224,56 @@
 
     #intro-text {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: #9c6869;
       user-select: none;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 8px;
+      }
+      #card-container {
+        flex-direction: column-reverse;
+        height: 94vh;
+        height: 94dvh;
+      }
+      #info-panel {
+        width: 100%;
+        height: 48%;
+        padding: 16px 20px;
+        transform: translateY(20px);
+      }
+      #info-panel.visible {
+        transform: translateY(0);
+      }
+      #canvas-container {
+        height: 52%;
+        top: 0;
+      }
+      #canvas-container.shifted {
+        transform: translate(0, 0);
+      }
+      #intro-heart-btn {
+        width: 58px;
+        height: 58px;
+        margin-bottom: 25px;
+      }
+      #intro-heart-btn::before,
+      #intro-heart-btn::after {
+        width: 58px;
+        height: 58px;
+      }
+      #intro-heart-btn::before {
+        top: -29px;
+      }
+      #intro-heart-btn::after {
+        left: 29px;
+      }
     }
   </style>
 </head>
@@ -233,7 +282,7 @@
   <div id="card-container">
     <div id="intro-overlay">
       <div id="intro-heart-btn"></div>
-      <div id="intro-text">Click the heart to open</div>
+      <div id="intro-text">Tap the heart to open</div>
     </div>
 
     <div id="info-panel">
@@ -255,23 +304,30 @@
   <script>
     const trailColors = ['#ff4d6d', '#ff758f', '#ff8fa3', '#c92a2a', '#e03131', '#f06595', '#ffb3c1'];
 
-    window.addEventListener('mousemove', (e) => {
+    function spawnTrailHeart(x, y) {
       const heart = document.createElement('div');
       heart.className = 'cursor-heart';
       heart.innerHTML = '❤';
-      heart.style.left = `${e.clientX}px`;
-      heart.style.top = `${e.clientY}px`;
+      heart.style.left = `${x}px`;
+      heart.style.top = `${y}px`;
       heart.style.color = trailColors[Math.floor(Math.random() * trailColors.length)];
-      heart.style.fontSize = `${Math.random() * 14 + 10}px`;
+      heart.style.fontSize = `${Math.random() * 12 + 10}px`;
 
-      const tx = `${(Math.random() - 0.5) * 45}px`;
+      const tx = `${(Math.random() - 0.5) * 40}px`;
       const rot = `${(Math.random() - 0.5) * 70}deg`;
       heart.style.setProperty('--tx', tx);
       heart.style.setProperty('--rot', rot);
 
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 1200);
-    });
+    }
+
+    window.addEventListener('mousemove', (e) => spawnTrailHeart(e.clientX, e.clientY));
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        spawnTrailHeart(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
 
     const now = new Date();
     let targetYear = now.getFullYear();
@@ -301,7 +357,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    const message = `To the love of my life: ❤\n\nThere is very little left until your special day, and I cannot wait to celebrate you properly-filling your day with infinite hugs, kisses, and sweet surprises.\n\nThank you for simply existing and making every day so meaningful.\n\n-Forever your friend and a fan`;
+    const message = `To the one of the most important person in my life: ❤\n\nThere is very little left until your special day, and I cannot wait to celebrate you properly-filling your day with infinite hugs, kisses, and sweet surprises.\n\nThank you for simply existing and making every day so meaningful.\n\n- Forever your fan and your friend`;
 
     let charIdx = 0;
     const typewriterEl = document.getElementById('typewriter');
@@ -310,23 +366,26 @@
       if (charIdx < message.length) {
         typewriterEl.textContent += message.charAt(charIdx);
         charIdx++;
-        setTimeout(typeLetter, 40);
+        setTimeout(typeLetter, 38);
       }
     }
 
     const canvas = document.getElementById('treeCanvas');
     const ctx = canvas.getContext('2d');
+    const container = document.getElementById('canvas-container');
 
-    const dpr = window.devicePixelRatio || 1;
-    const width = 1000;
-    const height = 640;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
+    let cWidth = container.clientWidth || 500;
+    let cHeight = container.clientHeight || 640;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = cWidth * dpr;
+    canvas.height = cHeight * dpr;
     ctx.scale(dpr, dpr);
 
-    const heartOriginX = width / 2;
-    const heartOriginY = 225;
-    const heartScale = 14.2;
+    const isMobile = window.innerWidth <= 768;
+    const heartOriginX = cWidth / 2;
+    const heartOriginY = isMobile ? cHeight * 0.38 : 225;
+    const heartScale = isMobile ? Math.min(cWidth, cHeight) * 0.024 : 14.2;
 
     function isInsideHeart(px, py, inset = 0) {
       const scale = heartScale * (16.0 - inset);
@@ -335,71 +394,70 @@
       return Math.pow(x * x + y * y - 1, 3) - x * x * Math.pow(y, 3) <= 0;
     }
 
+    const groundY = isMobile ? cHeight * 0.95 : 620;
+    const trunkH = groundY - heartOriginY;
+
     const rawBranches = [
       {
         pts: [
-          [heartOriginX, 620], [heartOriginX, 520], [heartOriginX, 440],
-          [heartOriginX, 360], [heartOriginX - 1, 290], [heartOriginX - 2, 230],
-          [heartOriginX - 4, 180]
+          [heartOriginX, groundY],
+          [heartOriginX, groundY - trunkH * 0.2],
+          [heartOriginX, groundY - trunkH * 0.4],
+          [heartOriginX, groundY - trunkH * 0.6],
+          [heartOriginX - 1, groundY - trunkH * 0.78],
+          [heartOriginX - 2, groundY - trunkH * 0.92]
         ],
-        w: 18
+        w: isMobile ? 12 : 18
       },
       {
         pts: [
-          [heartOriginX, 360], [heartOriginX - 35, 335], [heartOriginX - 70, 310],
-          [heartOriginX - 98, 255], [heartOriginX - 115, 205]
+          [heartOriginX, groundY - trunkH * 0.6],
+          [heartOriginX - heartScale * 2.5, groundY - trunkH * 0.67],
+          [heartOriginX - heartScale * 5.0, groundY - trunkH * 0.74],
+          [heartOriginX - heartScale * 7.0, groundY - trunkH * 0.88]
         ],
-        w: 8.5
+        w: isMobile ? 6 : 8.5
       },
       {
         pts: [
-          [heartOriginX - 70, 310], [heartOriginX - 100, 315], [heartOriginX - 120, 295]
+          [heartOriginX - heartScale * 5.0, groundY - trunkH * 0.74],
+          [heartOriginX - heartScale * 7.2, groundY - trunkH * 0.72],
+          [heartOriginX - heartScale * 8.5, groundY - trunkH * 0.78]
         ],
-        w: 4.8
+        w: isMobile ? 3.5 : 4.8
       },
       {
         pts: [
-          [heartOriginX - 100, 315], [heartOriginX - 115, 335]
+          [heartOriginX - 1, groundY - trunkH * 0.78],
+          [heartOriginX - heartScale * 1.5, groundY - trunkH * 0.92],
+          [heartOriginX - heartScale * 2.2, groundY - trunkH * 1.08]
         ],
-        w: 3.5
+        w: isMobile ? 3.2 : 4.5
       },
       {
         pts: [
-          [heartOriginX - 1, 290], [heartOriginX - 18, 230], [heartOriginX - 28, 160]
+          [heartOriginX, groundY - trunkH * 0.56],
+          [heartOriginX + heartScale * 2.5, groundY - trunkH * 0.64],
+          [heartOriginX + heartScale * 5.0, groundY - trunkH * 0.73],
+          [heartOriginX + heartScale * 7.0, groundY - trunkH * 0.88]
         ],
-        w: 4.5
+        w: isMobile ? 6 : 8.5
       },
       {
         pts: [
-          [heartOriginX - 1, 290], [heartOriginX + 10, 230], [heartOriginX + 14, 175]
+          [heartOriginX + heartScale * 5.0, groundY - trunkH * 0.73],
+          [heartOriginX + heartScale * 7.2, groundY - trunkH * 0.72],
+          [heartOriginX + heartScale * 8.5, groundY - trunkH * 0.78]
         ],
-        w: 4.5
+        w: isMobile ? 3.5 : 4.8
       },
       {
         pts: [
-          [heartOriginX, 380], [heartOriginX + 35, 350], [heartOriginX + 70, 315],
-          [heartOriginX + 98, 260], [heartOriginX + 115, 205]
+          [heartOriginX, groundY - trunkH * 0.7],
+          [heartOriginX + heartScale * 2.2, groundY - trunkH * 0.8],
+          [heartOriginX + heartScale * 4.8, groundY - trunkH * 0.92]
         ],
-        w: 8.5
-      },
-      {
-        pts: [
-          [heartOriginX + 70, 315], [heartOriginX + 100, 315], [heartOriginX + 120, 295]
-        ],
-        w: 4.8
-      },
-      {
-        pts: [
-          [heartOriginX, 320], [heartOriginX + 32, 280], [heartOriginX + 68, 235],
-          [heartOriginX + 85, 195]
-        ],
-        w: 6.5
-      },
-      {
-        pts: [
-          [heartOriginX + 32, 280], [heartOriginX + 68, 275], [heartOriginX + 95, 260]
-        ],
-        w: 3.8
+        w: isMobile ? 4.5 : 6.5
       }
     ];
 
@@ -421,7 +479,7 @@
             y1: start[1],
             x2: end[0],
             y2: end[1],
-            w: Math.max(2.2, taperWidth),
+            w: Math.max(2.0, taperWidth),
             dist: dist
           });
         }
@@ -473,7 +531,7 @@
       setTimeout(() => {
         infoPanel.classList.add('visible');
         startBlooming();
-      }, 1300);
+      }, isMobile ? 600 : 1300);
     }
 
     function getHeartCoords(t) {
@@ -506,16 +564,16 @@
     const colors = ['#d90429', '#ef233c', '#e63946', '#e03131', '#f06595', '#ff4d6d', '#ff758f', '#ff8787', '#f783ac', '#ffccd5', '#ffb3c1'];
 
     branchSegments.forEach(seg => {
-      const count = 35;
+      const count = isMobile ? 24 : 35;
       for (let j = 0; j <= count; j++) {
         const t = j / count;
-        const px = seg.x1 + (seg.x2 - seg.x1) * t + (Math.random() - 0.5) * 16;
-        const py = seg.y1 + (seg.y2 - seg.y1) * t + (Math.random() - 0.5) * 16;
+        const px = seg.x1 + (seg.x2 - seg.x1) * t + (Math.random() - 0.5) * (isMobile ? 10 : 16);
+        const py = seg.y1 + (seg.y2 - seg.y1) * t + (Math.random() - 0.5) * (isMobile ? 10 : 16);
         if (isInsideHeart(px, py, 0.2)) {
           heartLeaves.push({
             x: px,
             y: py,
-            targetSize: Math.random() * 11 + 10,
+            targetSize: Math.random() * (isMobile ? 7 : 11) + (isMobile ? 6 : 10),
             currentSize: 0,
             alpha: 0,
             angle: (Math.random() - 0.5) * 0.9,
@@ -525,7 +583,8 @@
       }
     });
 
-    while (heartLeaves.length < 3500) {
+    const maxLeaves = isMobile ? 2200 : 3500;
+    while (heartLeaves.length < maxLeaves) {
       const t = Math.random() * Math.PI * 2;
       const r = Math.pow(Math.random(), 0.52);
       const edgePt = getHeartCoords(t);
@@ -536,7 +595,7 @@
         heartLeaves.push({
           x: testX,
           y: testY,
-          targetSize: Math.random() * 11 + 9,
+          targetSize: Math.random() * (isMobile ? 7 : 11) + (isMobile ? 5 : 9),
           currentSize: 0,
           alpha: 0,
           angle: (Math.random() - 0.5) * 0.9,
@@ -551,7 +610,7 @@
     function startBlooming() {
       function animateBlooms() {
         if (bloomIndex < heartLeaves.length) {
-          const batchCount = 28;
+          const batchCount = isMobile ? 20 : 28;
           for (let i = 0; i < batchCount && bloomIndex < heartLeaves.length; i++) {
             const leaf = heartLeaves[bloomIndex];
             activeBlooms.push(leaf);
